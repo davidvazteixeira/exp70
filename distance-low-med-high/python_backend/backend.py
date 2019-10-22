@@ -11,13 +11,24 @@ bauld = 57600
 dev = '/dev/ttyUSB0'
 port = serial.Serial(dev, bauld, timeout=1)
 
-lights = {'red': Image.open("red.png"),
-        'green':  Image.open("green.png"),
-        'yellow':  Image.open("yellow.png"),
-        'off': Image.open("off.png")
-        }
+col = 390       
+sign_w = 220
 
-explanation_picture = Image.open('ultrasound-600.png')
+def open_resize(name, w):
+        img = Image.open(name)
+        ratio = w/img.size[0]
+        h = int(img.size[1]*ratio)
+        img = img.resize((w, h), Image.ANTIALIAS)
+        return img
+
+lights = {
+        'red': open_resize("red.png", sign_w),
+        'yellow':  open_resize("yellow.png", sign_w),
+        'green':  open_resize("green.png", sign_w),
+        'off': open_resize("off.png", sign_w)
+        }
+      
+explanation_picture = open_resize('ultrasound-600.png', col)
 
 class Window(Frame):
     def __init__(self, master=None):
@@ -52,20 +63,20 @@ class Window(Frame):
         left_label = """
         O sensor de ultrassom é composto por um microfone e um alto falante operando na frequência de ultrassom, que o homem não é capaz de escutar.
 
-        Funciona emitindo um sinal em ultrassom na direção de um objeto distante. Quando o som refletido retorna, calcula o tempo de ida e volta.
+        Funciona emitindo um sinal na direção de um objeto distante. Quando o som refletido retorna, calcula o tempo de ida e volta.
 
         Relacionando este tempo com a velocidade do som podemos calcular a distância até o objeto.
 
         Além de medir distâncias, pode detectar a aproximação de objetos ou pessoas.
         """
 
-        text = Label(self.master, text=left_label, font="Helvetica 26", wraplength=500)
+        text = Label(self.master, text=left_label, font="Helvetica 18", wraplength=col, justify=LEFT)
 
         #label1.pack(side=LEFT, fill=X,expand=1)
         #self.img.pack(side=LEFT, fill=X)
         #label2.pack(side=LEFT, fill=X,expand=1)
 
-        self.blank_label = Label(height=10).grid(column =0, row =0)
+        #self.blank_label = Label(height=10).grid(column =0, row =0)
         self.explanation.grid(column=0, row=1)
         text.grid(column=2, row=1)
         self.img.grid(column=1, row=1)
@@ -114,7 +125,8 @@ class Window(Frame):
 root = Tk()
 app = Window(root)
 root.wm_title("Tkinter window")
-root.geometry("200x120")
+root.geometry("1184x624")
+root.attributes('-fullscreen', True)
 root.after(500, app.checkDistance)
 root.mainloop()
 
