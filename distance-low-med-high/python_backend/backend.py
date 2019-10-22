@@ -36,8 +36,8 @@ class Window(Frame):
         self.master = master
         self.go_fullscreen = True
 
-        self.master.bind('<Escape>', self.toggle_geom)
-        self.toggle_geom()
+        self.master.bind('<Escape>', self.goodbye)
+        self.master.bind('<Button-1>', self.goodbye)
 
         #self.pack(fill=BOTH, expand=1)
 
@@ -85,19 +85,10 @@ class Window(Frame):
         master.grid_columnconfigure(1, weight=1)
         master.grid_columnconfigure(2, weight=1)
 
-    def toggle_geom(self, event = None):
-        self._geom = self.master.winfo_geometry()
-        if(self.go_fullscreen):
-            self.master.geometry(self._geom)
-        else:
-            pad=3
-            self._geom='640x480+0+0'
-            self.master.geometry("{0}x{1}+0+0".format(
-                self.master.winfo_screenwidth() - pad,
-                self.master.winfo_screenheight() - pad)
-            )
+    def goodbye(self, event = None):
+        print('Exit')
+        root.destroy()
 
-        self.go_fullscreen = not self.go_fullscreen
 
     def light(self, color):
         self.img.configure(image=self.colors[color])
