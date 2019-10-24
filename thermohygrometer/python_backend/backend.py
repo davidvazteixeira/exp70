@@ -79,14 +79,9 @@ class Window(Frame):
         self.master.bind('<Escape>', self.goodbye)
         self.master.bind('<Button-1>', self.goodbye)
 
-        #self.pack(fill=BOTH, expand=1)
-
         self.base = ImageTk.PhotoImage(dht['base'])
         self.short_shaft = ImageTk.PhotoImage(dht['short'])
         self.long_shaft = ImageTk.PhotoImage(dht['long'])
-
-        #self.img1 = Label(image = self.base)
-        #self.img2 = Label(image = self.base)
 
         xcenter = int(1184/2)
         sep=30
@@ -95,27 +90,33 @@ class Window(Frame):
         dht1y = 0
         dht2y = 0
 
+        # Canvas to draw
         self.canvas = Canvas(master, width=1184, height = self.base.height() , bg='black')
+
+        # Left and right displays
         self.canvas.create_image(dht1x, 0, image=self.base, anchor=NW)
         self.canvas.create_image(dht2x, 0, image=self.base, anchor=NW)
 
-        # indicator's data
+        # Indicator's data
         self.left_temp = Indicator('t', dht1x+int(self.base.width()/2)-1, 200-1, 164, 20)
         self.left_hum = Indicator('h', dht1x+int(self.base.width()/2)-2, 313-3, 60, 0)
         self.right_temp = Indicator('t', dht2x+int(self.base.width()/2) -1, 200-1, 164, 20)
         self.right_hum = Indicator('h', dht2x+int(self.base.width()/2)-2, 313-3, 60, 0)
 
-        # indicator's lines
+        # Indicator's lines
         self.left_temp_indicator = self.canvas.create_line(self.left_temp.coords(), width=3, fill='red' )
         self.left_hum_indicator = self.canvas.create_line(self.left_hum.coords(), width=3, fill='red' )
         self.right_temp_indicator = self.canvas.create_line(self.right_temp.coords(), width=3, fill='red' )
         self.right_hum_indicator = self.canvas.create_line(self.right_hum.coords(), width=3, fill='red' )
 
         left_label = """
-        Temperaturas
+        Obter informações sobre o clima tem sido cada vez mais importante em nossa sociedade. Os sensores de temperatura e umidade são ótimas ferramentas para este fim.
+
+        Além da possibilidade meteorológica, podemos monitorar ambientes fechados e acionar aquecedores e desumidificadores, estabilizando o clima local.
         """
 
-        text = Label(self.master, text=left_label, font="Helvetica 18", wraplength=col, justify=LEFT)
+        # explanation label
+        text = Label(self.master, text=left_label, font="Helvetica 18", wraplength=1000, justify=LEFT)
 
         self.blank_label = Label(height=10).grid(column=0, row=0)
 
@@ -123,6 +124,7 @@ class Window(Frame):
         #self.img1.grid(column=0, row=0)
         #self.img2.grid(column=1, row=0)
         self.canvas.grid(column=0, row=1)
+        text.grid(column=0, row=2)
 
         #master.grid_columnconfigure(0, weight=1)
         #master.grid_columnconfigure(1, weight=1)
