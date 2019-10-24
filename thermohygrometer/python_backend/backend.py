@@ -91,7 +91,7 @@ class Window(Frame):
         dht2y = 0
 
         # Canvas to draw
-        self.canvas = Canvas(master, width=1184, height = self.base.height() , bg='black')
+        self.canvas = Canvas(master, width=1184, height = self.base.height())
 
         # Left and right displays
         self.canvas.create_image(dht1x, 0, image=self.base, anchor=NW)
