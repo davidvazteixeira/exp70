@@ -110,15 +110,15 @@ class Window(Frame):
         self.right_hum_indicator = self.canvas.create_line(self.right_hum.coords(), width=3, fill='red' )
 
         left_label = """
-        Obter informações sobre o clima tem sido cada vez mais importante em nossa sociedade. Os sensores de temperatura e umidade são ótimas ferramentas para este fim.
-
-        Além da possibilidade meteorológica, podemos monitorar ambientes fechados e acionar aquecedores e desumidificadores, estabilizando o clima local.
+        Além da aplicação meteorológica, os sensores de temperatura e umidade podem monitorar e controlar ambientes fechados, acionar climatizadores e desumidificadores, estabilizando o clima local.
+        
+        (Projeto 1: Sala de Obras Raras)
         """
 
         # explanation label
         text = Label(self.master, text=left_label, font="Helvetica 18", wraplength=1000, justify=LEFT)
 
-        self.blank_label = Label(height=10).grid(column=0, row=0)
+        self.blank_label = Label(height=1).grid(column=0, row=0)
 
         #text.grid(column=0, row=0)
         #self.img1.grid(column=0, row=0)
@@ -147,8 +147,8 @@ class Window(Frame):
             return
         try:
             t1, h1, t2, h2 = x.decode('ascii')[:-2].split(' ')
-            print(int(t1), 'C,', int(t2), 'C')
-            print(int(h1), '%,', int(h2), '%')
+            #print(int(t1), 'C,', int(t2), 'C')
+            #print(int(h1), '%,', int(h2), '%')
         except:
             print('Error! Content:', x)
             return
@@ -169,7 +169,7 @@ root = Tk()
 app = Window(root)
 root.wm_title("Tkinter window")
 root.geometry("1184x624")
-#root.attributes('-fullscreen', True)
+root.attributes('-fullscreen', True)
 root.after(500, app.checkDistance)
 root.mainloop()
 
