@@ -1,0 +1,20 @@
+body {
+  background-image: url(/static/lights.png);
+  background-position: center top;
+  background-size: 100% auto;      
+  background-color: #cccccc;
+}
+
+h1 {
+  color: pink;
+}
+
+.btn-onoff {
+  width: 10em;
+  height: 3em;
+}
+
+.text-information {
+  color: beige;
+  text-shadow: 2px 2px black;
+}
