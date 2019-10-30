@@ -7,9 +7,11 @@
 # Before testing exp/test mode
 pre_run(){
   xset -dpms s off
+  cd /home/pi/Downloads/exp70/lightonoff/python-backend/
   source .env/bin/activate
-  FLASK_APP=web.py flask run 
-  deactivate
+  FLASK_APP=web.py flask run &
+  sleep 5
+  chromium-browser http://localhost:5000  
 }
 
 # ---------------------------

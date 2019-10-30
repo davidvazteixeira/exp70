@@ -1,0 +1,5 @@
+[Desktop Entry]
+Type=Application
+Exec=/home/pi/Downloads/exp70/lightonoff/python-backend/run.sh
+Name=Light ON OFF
+Name[pt_BR]=Light ON OFF
