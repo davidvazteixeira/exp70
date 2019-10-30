@@ -1,0 +1,20 @@
+9B4E2F0B000000000000
+Do FORTRAN à Internet
+Tércio Pacitti
+O livro narra os primeiros tempos do ITA, quando o curso de Engenharia da Aeronáutica se desprendeu do IME; a semente da Embraer; o início da história da COPPE e do NCE/UFRJ, além de outros projetos pioneiros dentro e fora da Aeronáutica.
+fortran.jpg
+A9959656000000000000
+Classical Mechanics - 2nd Ed.
+Herbert Goldstein
+An advanced course in classical mechanics has long been a time-honored part od the graduate physics curriculum. The present-day function of such a course, however, might well be questioned. It introduces no new physical concepts to the graduate student. It does not lead him directly into current physics research. Nor does it aid him, to any appreciable extent, in solving the practical mechanics problems he encounters in the laboratory.  
+goldstein.jpg
+09338756000000000000
+Quantum Mechanics - Vol. 2
+Claude Cohen-Tannoudji, Bernard Diu, Franck Laloë
+Beginning students of quantum mechanics frequently experience difficulties separating essential underlying principles from the specific examples to which these principles have been historically applied. Nobel-Prize-winner Claude Cohen-Tannoudji and his colleagues have written this book to eliminate precisely these difficulties. Fourteen chapters provide a clarity of organization, careful attention to pedagogical details, and a wealth of topics and examples which make this work a textbook as well as a timeless reference, allowing to tailor courses to meet students' specific needs. 
+cohen.jpg
+DB9F960B000000000000
+Classical Electrodynamics - 2nd Ed.
+John David Jackson
+In the thirteen years since the appearance of the first edition, my interest in classical electromagnetism has waxed and waned, but never fallen to zero. The subject is never fresh. There are always important new applications and examples. The present edition reflects two efforts on my part: the refinement and improvement of material already in the first edition; the addition of new topics (and the omission of a few).
+jackson.jpg

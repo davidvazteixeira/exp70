@@ -12,10 +12,15 @@ from PIL import ImageTk
 from books import Book
 
 books = []
-books.append(Book('9B4E2F0B000000000000', 'O Livro Vermelho Misterioso', 'Lucifer', 'Livro proibido sobre os rituais macabros.', 'red.png'))
-books.append(Book('A9959656000000000000', 'O Verde das Árvores', 'Madeirinha', 'História infantil pra boi dormir.', 'green.png'))
-books.append(Book('09338756000000000000', 'Azul como o Céu', 'Astrogildo', 'Catálogo de anos de observação celeste sem observar nada.', 'blue.png'))
-books.append(Book('DB9F960B000000000000', 'Receitas de Alimentos Amarelos', 'Chef Jaune', 'De délicieuses recettes françaises accompagnées de la belle nourriture jaune.', 'yellow.png'))
+with open('books.txt', 'r') as file:   
+    lines = file.read().splitlines()
+    for n in range(0, len(lines), 5):
+        rf = lines[n]
+        title = lines[n+1]
+        author = lines[n+2]
+        description = lines[n+3]
+        image_link = lines[n+4]
+        books.append(Book(rf, title, author, description, image_link))
 
 def search_book(rfid):
     global books
@@ -38,8 +43,7 @@ if use_port:
     time.sleep(1)
     print('done.')
 
-col = 1184/2 - 10
-sign_w = 220
+col = int(1280/2 - 50)
 
 def open_resize(name, w):
         img = Image.open(name)
@@ -49,12 +53,6 @@ def open_resize(name, w):
             img = img.resize((w, h), Image.ANTIALIAS)
         return img
 
-#dht = {
-#        'base': open_resize("base.png", 400),
-#        'short':  open_resize("short.png", sign_w),
-#        'long':  open_resize("long.png", sign_w),
-#        }
-
 class Window(Frame):
     def __init__(self, master=None):
         Frame.__init__(self, master)
@@ -63,44 +61,43 @@ class Window(Frame):
         self.master.bind('<Escape>', self.goodbye)
         self.master.bind('<Button-1>', self.goodbye)
 
-        #self.short_shaft = ImageTk.PhotoImage(dht['short'])
-        #self.long_shaft = ImageTk.PhotoImage(dht['long'])
-
-#        xcenter = int(1184/2)
-#        sep=30
-#        dht1x = xcenter - self.base.width() - sep
-#        dht2x = xcenter + sep
-#        dht1y = 0
-#        dht2y = 0
-
-        self.book_title = Label(self.master, text="", font="Helvetica 40", wraplength=500, justify=LEFT)
-        self.book_author = Label(self.master, text="", font="Helvetica 35", wraplength=500, justify=LEFT)
-        self.book_description = Label(self.master, text="", font="Helvetica 25", wraplength=500, justify=LEFT)
-        self.book_image = Label(self.master, text="", font="Helvetica 16", wraplength=500, justify=LEFT)
+        self.book_title = Label(self.master, text="", font="Helvetica 22", wraplength=col, justify=LEFT)
+        self.book_author = Label(self.master, text="", font="Helvetica 18", wraplength=col, justify=LEFT)
+        self.book_description = Label(self.master, text="", font="Helvetica 12", wraplength=col, justify=LEFT)
+        self.book_image = Label(self.master, text="", font="Helvetica 14", wraplength=col, justify=LEFT)
 
         # explanation label
-        explanation_title_text = "Leitores de RFID"
-        explanation_text = """
-        Aqui tem um texto explicativo muito longo e pouco objetivo que o Nilton não vai gostar.
+        explanation_text_title = "Identificação por radiofrequência"
+        explanation_text_top = """
+        RFID ("Radio-Frequency IDentification") é um método de identificação automática através de sinais de rádio, recuperando e armazenando dados remotamente através de dispositivos denominados etiquetas RFID.
         """
-        explanation_title = Label(self.master, text=explanation_title_text, font="Helvetica 40", wraplength=col, justify=LEFT)
-        explanation = Label(self.master, text=explanation_text, font="Helvetica 35", wraplength=col, justify=LEFT)
+
+        explanation_text_bottom = """
+        Passe o RFID de um dos livros no leitor.
+        """
+        
+        explanation_title = Label(self.master, text=explanation_text_title, font="Helvetica 30", wraplength=col, justify=LEFT)
+        explanation_body = Label(self.master, text=explanation_text_top, font="Helvetica 18", wraplength=col, justify=LEFT)
+        explanation_footer = Label(self.master, text=explanation_text_bottom, font="Helvetica 18", wraplength=col, justify=LEFT)
+        
+        expimg_file = open_resize('RFID-Arduino.png', col)
+        expimg = ImageTk.PhotoImage(expimg_file)
+        explanation_picture = Label(self.master, text="", font="Helvetica 18", image=expimg, wraplength=col, justify=LEFT)
+        explanation_picture.image = expimg
 
         self.blank_label = Label(height=1).grid(column=0, row=0)
         explanation_title.grid(column=0, row=1)
-        explanation.grid(column=0, row=2)
+        explanation_body.grid(column=0, row=2)
+        explanation_picture.grid(column=0, row=3)        
+        explanation_footer.grid(column=0, row=4)
 
         self.book_title.grid(column=1, row=1)
         self.book_author.grid(column=1, row=2)
         self.book_image.grid(column=1, row=3)
         self.book_description.grid(column=1, row=4)
 
-        #text.grid(column=0, row=0)
-        #self.img1.grid(column=0, row=0)
-        #self.img2.grid(column=1, row=0)
-
-        master.grid_columnconfigure(0, weight=1)
-        master.grid_columnconfigure(1, weight=1)
+        master.grid_columnconfigure(0, weight=1, uniform='group1')
+        master.grid_columnconfigure(1, weight=1, uniform='group1')
 
     def goodbye(self, event = None):
         print('Exit')
@@ -109,7 +106,7 @@ class Window(Frame):
         root.destroy()
 
     def checkCard(self):
-        root.after(1000, self.checkCard)
+        root.after(50, self.checkCard)
         if not use_port:
             return
 
@@ -133,23 +130,22 @@ class Window(Frame):
         book = search_book(rfid)
 
         if(book):
-            print("You book is here:")
-            print(book.rfid, book.title, book.author, book.description, sep='\n')
+            #print("You book is here:")
+            #print(book.rfid, book.title, book.author, book.description, sep='\n')
             self.book_title.configure(text=book.title)
             self.book_author.configure(text=book.author)
             self.book_description.configure(text=book.description)
-            print(book.image_file)
+            #print(book.image_file)
 
-
-            cover_file = open_resize(book.image_file, 200)
+            cover_file = open_resize(book.image_file, 120)
             cover = ImageTk.PhotoImage(cover_file)
             self.book_image.configure(image=cover)
             self.book_image.image = cover
 
 root = Tk()
 app = Window(root)
-root.wm_title("Tkinter window")
-root.geometry("1184x624")
-#root.attributes('-fullscreen', True)
+root.wm_title("Leitor de RFID")
+root.geometry("1280x720")
+root.attributes('-fullscreen', True)
 root.after(500, app.checkCard)
 root.mainloop()
