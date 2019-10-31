@@ -1,9 +1,12 @@
 #!/usr/bin/env python3
-import serial
-from serial.tools import list_ports
+"""
+doc:
+"""
 import time
 import math
 from tkinter import *
+import serial
+from serial.tools import list_ports
 
 # pip install pillow
 from PIL import Image
@@ -12,7 +15,7 @@ from PIL import ImageTk
 from books import Book
 
 books = []
-with open('books.txt', 'r') as file:   
+with open('books.txt', 'r') as file:
     lines = file.read().splitlines()
     for n in range(0, len(lines), 5):
         rf = lines[n]
@@ -46,14 +49,17 @@ if use_port:
 col = int(1280/2 - 50)
 
 def open_resize(name, w):
-        img = Image.open(name)
-        if(w):
-            ratio = w/img.size[0]
-            h = int(img.size[1]*ratio)
-            img = img.resize((w, h), Image.ANTIALIAS)
-        return img
+    img = Image.open(name)
+    if w:
+        ratio = w/img.size[0]
+        h = int(img.size[1]*ratio)
+        img = img.resize((w, h), Image.ANTIALIAS)
+    return img
 
 class Window(Frame):
+    """
+    doc:
+    """
     def __init__(self, master=None):
         Frame.__init__(self, master)
         self.master = master
@@ -75,20 +81,22 @@ class Window(Frame):
         explanation_text_bottom = """
         Passe o RFID de um dos livros no leitor.
         """
-        
+
         explanation_title = Label(self.master, text=explanation_text_title, font="Helvetica 30", wraplength=col, justify=LEFT)
         explanation_body = Label(self.master, text=explanation_text_top, font="Helvetica 18", wraplength=col, justify=LEFT)
         explanation_footer = Label(self.master, text=explanation_text_bottom, font="Helvetica 18", wraplength=col, justify=LEFT)
-        
+
         expimg_file = open_resize('RFID-Arduino.png', col)
         expimg = ImageTk.PhotoImage(expimg_file)
         explanation_picture = Label(self.master, text="", font="Helvetica 18", image=expimg, wraplength=col, justify=LEFT)
         explanation_picture.image = expimg
 
-        self.blank_label = Label(height=1).grid(column=0, row=0)
+        self.blank_label = Label(height=1)
+
+        self.blank_label.grid(column=0, row=0)
         explanation_title.grid(column=0, row=1)
         explanation_body.grid(column=0, row=2)
-        explanation_picture.grid(column=0, row=3)        
+        explanation_picture.grid(column=0, row=3)
         explanation_footer.grid(column=0, row=4)
 
         self.book_title.grid(column=1, row=1)
@@ -99,14 +107,14 @@ class Window(Frame):
         master.grid_columnconfigure(0, weight=1, uniform='group1')
         master.grid_columnconfigure(1, weight=1, uniform='group1')
 
-    def goodbye(self, event = None):
+    def goodbye(self, event=None):
         print('Exit')
         if use_port:
             port.close()
         root.destroy()
 
-    def checkCard(self):
-        root.after(50, self.checkCard)
+    def check_card(self):
+        root.after(50, self.check_card)
         if not use_port:
             return
 
@@ -121,7 +129,7 @@ class Window(Frame):
             print('Some error in conversion!')
             return
 
-        if(len(rfid) != 20):
+        if len(rfid) != 20:
             print(rfid)
             print('Some error in data reception!')
             return
@@ -129,7 +137,7 @@ class Window(Frame):
         # Here the card is converted and has 20 chars
         book = search_book(rfid)
 
-        if(book):
+        if book:
             #print("You book is here:")
             #print(book.rfid, book.title, book.author, book.description, sep='\n')
             self.book_title.configure(text=book.title)
@@ -147,5 +155,5 @@ app = Window(root)
 root.wm_title("Leitor de RFID")
 root.geometry("1280x720")
 root.attributes('-fullscreen', True)
-root.after(500, app.checkCard)
+root.after(500, app.check_card)
 root.mainloop()
